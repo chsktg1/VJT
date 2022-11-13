@@ -10,26 +10,13 @@ import {
 } from 'react-native';
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
-
+import ProductBuilder from '../ProductBuilder';
 import g1 from '../../../assets/g1.jpeg';
 import g2 from '../../../assets/g2.jpeg';
 
 import r1 from '../../../assets/r1.jpeg';
 import r2 from '../../../assets/r2.jpeg';
 import r3 from '../../../assets/r3.jpeg';
-
-const ProductMaker = props => {
-  const {source} = props;
-
-  console.log(props);
-  return (
-    <View style={styles.productView}>
-      <ImageBackground source={source.source} style={styles.BackgroundImg}>
-        <Text style={styles.productName}>{source.name}</Text>
-      </ImageBackground>
-    </View>
-  );
-};
 
 const Home = () => {
   const Images = [g1, g2, g1, g2];
@@ -78,7 +65,7 @@ const Home = () => {
         <Text style={styles.ourProductsText}>Our Products</Text>
         <ScrollView>
           {ProductImages.map((e, i) => (
-            <ProductMaker source={e} key={i} />
+            <ProductBuilder source={e.source} name={e.name} key={i} />
           ))}
         </ScrollView>
       </View>

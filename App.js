@@ -5,7 +5,7 @@
  * @format
  * @flow strict-local
  */
-
+import {NativeBaseProvider} from 'native-base';
 import React, {useState} from 'react';
 import Login from './src/Components/Login';
 import SignUp from './src/Components/Signup';
@@ -14,30 +14,89 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Home from './src/Components/Home';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import About from './src/Components/About';
+import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import Settings from './src/Components/Settings';
+
 const App = () => {
   const Stack = createNativeStackNavigator();
   const Drawer = createDrawerNavigator();
   const [isAuth, setIsAuth] = useState(false);
   return (
-    <NavigationContainer>
-      {!isAuth ? (
-        <Stack.Navigator>
-          <Stack.Screen name="login">
-            {props => <Login {...props} setIsAuth={setIsAuth} />}
-          </Stack.Screen>
-          <Stack.Screen name="signup" component={SignUp} />
-        </Stack.Navigator>
-      ) : (
-        <Drawer.Navigator>
-          <Stack.Screen name="Home" component={Home} />
-          <Stack.Screen name="About" component={About} />
-          <Stack.Screen name="Settings" component={Settings} />
-        </Drawer.Navigator>
-      )}
-    </NavigationContainer>
+    <NativeBaseProvider>
+      <NavigationContainer>
+        {!isAuth ? (
+          <Stack.Navigator>
+            <Stack.Screen name="login">
+              {props => <Login {...props} setIsAuth={setIsAuth} />}
+            </Stack.Screen>
+            <Stack.Screen name="signup" component={SignUp} />
+          </Stack.Navigator>
+        ) : (
+          <Drawer.Navigator>
+            <Drawer.Screen
+              name="Home"
+              component={Home}
+              options={{
+                title: 'Home',
+                drawerIcon: ({focused, size}) => {
+                  return (
+                    <Icon
+                      name="home"
+                      size={20}
+                      style={{paddingLeft: 10}}
+                      color={focused ? '#000000' : '#bbbbbb'}
+                    />
+                  );
+                },
+              }}
+            />
+            <Drawer.Screen
+              name="About"
+              component={About}
+              options={{
+                title: 'About',
+                drawerIcon: ({focused, size}) => {
+                  return (
+                    <Icon
+                      name="tree"
+                      size={20}
+                      style={{paddingLeft: 10}}
+                      color={focused ? '#000000' : '#bbbbbb'}
+                    />
+                  );
+                },
+              }}
+            />
+            <Drawer.Screen
+              name="Settings"
+              component={Settings}
+              options={{
+                title: 'Settings',
+                drawerIcon: ({focused, size}) => {
+                  return (
+                    <Icon
+                      name="gear"
+                      size={20}
+                      style={{paddingLeft: 10}}
+                      color={focused ? '#000000' : '#bbbbbb'}
+                    />
+                  );
+                },
+              }}
+            />
+          </Drawer.Navigator>
+        )}
+      </NavigationContainer>
+    </NativeBaseProvider>
   );
   // return <Home />;
 };
 
+// const App = () => {
+//   return (
+//     <NativeBaseProvider>
+//       <ProductBuilder />
+//     </NativeBaseProvider>
+//   );
+// };
 export default App;
