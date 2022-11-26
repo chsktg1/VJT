@@ -15,8 +15,7 @@ import Home from './src/Components/Home';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import About from './src/Components/About';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
-import Settings from './src/Components/Settings';
-
+import SettingsNavigation from './src/Components/SettingsNavigation';
 const App = () => {
   const Stack = createNativeStackNavigator();
   const Drawer = createDrawerNavigator();
@@ -68,8 +67,7 @@ const App = () => {
               }}
             />
             <Drawer.Screen
-              name="Settings"
-              component={Settings}
+              name="Setting"
               options={{
                 title: 'Settings',
                 drawerIcon: ({focused, size}) => {
@@ -82,21 +80,14 @@ const App = () => {
                     />
                   );
                 },
-              }}
-            />
+              }}>
+              {props => <SettingsNavigation {...props} setIsAuth={setIsAuth} />}
+            </Drawer.Screen>
           </Drawer.Navigator>
         )}
       </NavigationContainer>
     </NativeBaseProvider>
   );
-  // return <Home />;
 };
 
-// const App = () => {
-//   return (
-//     <NativeBaseProvider>
-//       <ProductBuilder />
-//     </NativeBaseProvider>
-//   );
-// };
 export default App;

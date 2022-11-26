@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import {
   View,
-  Button,
   ImageBackground,
   SafeAreaView,
   Text,
@@ -11,19 +10,17 @@ import {
 } from 'react-native';
 import userDefault from '../../../assets/userDefault.jpg';
 import ImagePicker from 'react-native-image-crop-picker';
-import {Actionsheet, useDisclose} from 'native-base';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import PrivacyPolicy from '../PrivacyPolicy';
+import {Button} from 'native-base';
 const allSettings = [
   {name: 'Privacy Policy', pageName: 'PP'},
-  {name: 'Terms and Conditions', pageName: 'PP'},
+  {name: 'Terms and Conditions', pageName: 'T&C'},
   {name: 'settings3', pageName: 'PP'},
   {name: 'settings4', pageName: 'PP'},
 ];
 
 const Settings = props => {
-  const {navigation} = props;
-  const settingStack = createNativeStackNavigator();
+  const {navigation, setIsAuth} = props;
+
   const selectImageFromGallery = async () => {
     const profilePicture = await ImagePicker.openPicker({
       width: 300,
@@ -35,8 +32,6 @@ const Settings = props => {
   };
 
   const [profilePic, setProfilePic] = useState(userDefault);
-
-  const {isOpen, onOpen, onClose} = useDisclose();
   return (
     <SafeAreaView style={styles.body}>
       <TouchableWithoutFeedback onPress={selectImageFromGallery}>
@@ -56,9 +51,11 @@ const Settings = props => {
       </TouchableWithoutFeedback>
       <View style={styles.secondaryView}>
         <Text>Hey, Chittipolu Sumanth Kumar</Text>
+
         <View style={{width: '100%'}}>
           {allSettings.map((i, e) => (
             <TouchableOpacity
+              onPress={() => navigation.navigate(i.pageName)}
               key={i.name}
               style={
                 e === allSettings.length - 1
@@ -70,9 +67,9 @@ const Settings = props => {
           ))}
         </View>
       </View>
-      <settingStack.Navigator>
-        <settingStack.Screen name="PP" component={PrivacyPolicy} />
-      </settingStack.Navigator>
+      <Button size="md" colorScheme="danger" onPress={() => setIsAuth(false)}>
+        Logout
+      </Button>
     </SafeAreaView>
   );
 };
@@ -87,7 +84,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    margin: 10,
+    marginTop: 10,
   },
   secondaryView: {
     paddingTop: 10,
@@ -103,6 +100,8 @@ const styles = StyleSheet.create({
     borderColor: 'gray',
     borderWidth: 1,
     borderBottomWidth: 0,
+    borderLeftWidth: 0,
+    borderRightWidth: 0,
   },
   lastElement: {borderBottomWidth: 1},
 });
